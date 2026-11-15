@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TS SI Mains 2023 Paper-1 | B2B Exam-as-a-Service Portal</title>
+  <title>TS SI Mains 2023 Paper-1 | Secure B2B Exam Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -31,14 +31,13 @@
     header h1 { font-size: 1.15rem; font-weight: 800; color: #38bdf8; }
     header p { font-size: 0.8rem; color: #cbd5e1; margin-top: 2px; }
 
-    .container { max-width: 980px; margin: 20px auto; padding: 0 14px; }
+    .container { max-width: 1000px; margin: 20px auto; padding: 0 14px; }
     .card {
       background: var(--card); border-radius: 14px; padding: 20px;
       border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       margin-bottom: 18px;
     }
 
-    /* Role Switcher Tabs */
     .role-tabs {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
       background: #e2e8f0; padding: 6px; border-radius: 12px; margin-bottom: 18px;
@@ -49,7 +48,7 @@
     }
     .role-btn.active { background: white; color: var(--primary-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
 
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 14px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 14px; }
     .form-group label { display: block; font-size: 0.84rem; font-weight: 700; margin-bottom: 4px; color: #334155; }
     .form-group input, .form-group select {
       width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 9px;
@@ -69,7 +68,6 @@
     .btn-outline { background: #f8fafc; color: #334155; border: 1.5px solid #cbd5e1; }
     .btn-sm { padding: 6px 10px; font-size: 0.78rem; border-radius: 6px; }
 
-    /* Tables */
     .table-wrap { overflow-x: auto; margin-top: 12px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
     th, td { border: 1px solid var(--border); padding: 9px 10px; text-align: left; }
@@ -123,7 +121,16 @@
     .rev-wrong { border-left: 5px solid #dc2626; }
     .rev-skip { border-left: 5px solid #94a3b8; }
 
-    /* Print Notice Board Merit List */
+    /* Payment Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7);
+      display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100;
+    }
+    .modal-box {
+      background: white; max-width: 440px; width: 100%; border-radius: 14px; padding: 22px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.25);
+    }
+
     @media print {
       header, .no-print, .role-tabs { display: none !important; }
       body { background: white; padding: 0; }
@@ -137,7 +144,7 @@
 
 <header>
   <h1>👮‍♂️ TS SI Mains 2023 — Paper-1 (Arithmetic & Reasoning)</h1>
-  <p>TSLPRB Official Exam Portal (08-04-2023) • Multi-Institute Exam System</p>
+  <p>TSLPRB Official Exam Portal (08-04-2023) • Secure Multi-Institute Portal</p>
 </header>
 
 <div class="container">
@@ -154,12 +161,16 @@
        ========================================================= -->
   <div id="view-student">
     <div id="studentLoginCard" class="card">
-      <h2 style="font-size: 1.2rem; color: #0f172a; margin-bottom: 6px;">🎓 విద్యార్థి పరీక్ష లాగిన్ (Student Exam Login)</h2>
-      <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 16px;">
-        మీ కోచింగ్ సెంటర్ డైరెక్టర్ పరీక్షను ప్రారంభించిన (Live) తర్వాత మీ వివరాలతో లాగిన్ అవ్వండి.
+      <h2 style="font-size: 1.2rem; color: #0f172a; margin-bottom: 6px;">🎓 విద్యార్థి పరీక్ష లాగిన్ (Student Login)</h2>
+      <p style="font-size: 0.84rem; color: var(--muted); margin-bottom: 14px;">
+        <strong>మొదటిసారి లాగిన్ అయ్యేవారు:</strong> మీ Institute Code నమోదు చేసి PIN ఖాళీగా వదిలేస్తే మీకు ప్రత్యేకమైన <strong>Personal PIN</strong> జనరేట్ అవుతుంది. ఆ తర్వాత ప్రతిసారీ ఆ Personal PIN తోనే లాగిన్ అవ్వాలి.
       </p>
 
       <div class="form-grid">
+        <div class="form-group">
+          <label>ఇన్‌స్టిట్యూట్ కోడ్ (Institute Code) *</label>
+          <input type="text" id="stuInstCode" placeholder="ఉదా: TPA100">
+        </div>
         <div class="form-group">
           <label>రోల్ నంబర్ (Roll Number) *</label>
           <input type="text" id="stuRoll" placeholder="ఉదా: 101">
@@ -173,14 +184,14 @@
           <input type="tel" id="stuPhone" maxlength="10" placeholder="10 అంకెల నంబర్">
         </div>
         <div class="form-group">
-          <label>ఇన్‌స్టిట్యూట్ PIN (Exam PIN) *</label>
-          <input type="password" id="stuPin" placeholder="డైరెక్టర్ ఇచ్చిన PIN">
+          <label>మీ వ్యక్తిగత PIN (Personal PIN - 2nd Time onwards)</label>
+          <input type="password" id="stuPersonalPin" maxlength="4" placeholder="1st time అయితే ఖాళీగా వదిలేయండి">
         </div>
       </div>
 
-      <button class="btn btn-primary btn-full" onclick="studentLogin()">🚀 పరీక్ష ప్రారంభించండి (Start Exam)</button>
+      <button class="btn btn-primary btn-full" onclick="studentLogin()">🚀 పరీక్ష ప్రారంభించండి (Proceed to Exam)</button>
       <div style="margin-top:12px; font-size:0.78rem; color:#64748b; background:#f8fafc; padding:8px 12px; border-radius:8px;">
-        <strong>Demo Test Credentials:</strong> Roll No: <code>101</code> | PIN: <code>1234</code> (Director ముందుగా Exam Start చేసి ఉండాలి)
+        <strong>Demo Institute Code:</strong> <code>TPA100</code> | Allowed Rolls: <code>101 - 200</code> (Director Exam Live చేసిన తర్వాత పనిచేస్తుంది)
       </div>
     </div>
 
@@ -191,7 +202,10 @@
           <button class="sec-btn active" id="secArithBtn" onclick="jumpToSection('Arithmetic')">📐 Arithmetic (1-100)</button>
           <button class="sec-btn" id="secReasBtn" onclick="jumpToSection('Reasoning')">🧩 Reasoning (101-200)</button>
         </div>
-        <div class="timer-box" id="timerDisplay">⏱️ 03:00:00</div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span id="stuPinBanner" style="background:#fef3c7; color:#92400e; padding:5px 10px; border-radius:8px; font-size:0.82rem; font-weight:800;"></span>
+          <div class="timer-box" id="timerDisplay">⏱️ 03:00:00</div>
+        </div>
       </div>
 
       <div class="card">
@@ -271,7 +285,7 @@
   <div id="view-director" style="display: none;">
     <div id="directorLoginCard" class="card">
       <h2 style="font-size:1.2rem; margin-bottom:8px;">🏛️ కోచింగ్ సెంటర్ డైరెక్టర్ లాగిన్ (Director Login)</h2>
-      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:14px;">మీ రిజిస్టర్డ్ మొబైల్ నంబర్ మరియు PIN తో లాగిన్ అవ్వండి.</p>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:14px;">మీ రిజిస్టర్డ్ మొబైల్ నంబర్ మరియు డైరెక్టర్ PIN తో లాగిన్ అవ్వండి.</p>
       <div class="form-grid">
         <div class="form-group">
           <label>డైరెక్టర్ మొబైల్ నంబర్ *</label>
@@ -298,28 +312,27 @@
           <button class="btn btn-outline btn-sm" onclick="directorLogout()">🚪 Logout</button>
         </div>
 
+        <!-- Exam Activation & Fee Payment Box -->
         <div style="background:#f8fafc; border:1px solid var(--border); padding:14px; border-radius:10px; margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div>
             <strong>పరీక్ష స్థితి (Exam Live Control):</strong>
             <span id="dirExamStatusBadge" class="status-pill st-hold" style="margin-left:8px;">STOPPED</span>
-            <div style="font-size:0.8rem; color:#64748b; margin-top:3px;">గమనిక: కొత్త విద్యార్థులను నేరుగా చేర్చే వీలు లేదు. కేటాయించిన రోల్ నంబర్లు మాత్రమే అనుమతించబడతాయి.</div>
+            <div id="dirFeeInfo" style="font-size:0.84rem; color:#0f172a; font-weight:700; margin-top:4px;"></div>
+            <div style="font-size:0.78rem; color:#64748b; margin-top:2px;">గమనిక: కొత్త విద్యార్థులను నేరుగా చేర్చే వీలు లేదు. కేటాయించిన రోల్ నంబర్లు మాత్రమే అనుమతించబడతాయి.</div>
           </div>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-success btn-sm" onclick="toggleInstituteExam(true)">▶️ Start Exam (Live)</button>
-            <button class="btn btn-danger btn-sm" onclick="toggleInstituteExam(false)">⏹️ Stop Exam</button>
-          </div>
+          <div id="dirActionButtons" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
         </div>
       </div>
 
-      <!-- Merit List & Re-Exam Control -->
+      <!-- Merit List (NO MOBILE NUMBERS SHOWN) & Student Controls -->
       <div class="card">
         <div class="print-header">
           <h2 id="meritPrintInstName">Coaching Institute</h2>
-          <h3>TS SI Mains 2023 — Paper-1 (Arithmetic & Reasoning) Merit List</h3>
+          <h3>TS SI Mains 2023 — Paper-1 (Arithmetic & Reasoning) Official Merit List</h3>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;" class="no-print">
-          <h3 style="font-size:1.08rem;">📊 విద్యార్థుల ఫలితాలు & Re-Exam నియంత్రణ</h3>
+          <h3 style="font-size:1.08rem;">📊 విద్యార్థుల ర్యాంకుల జాబితా & Re-Exam / PIN Reset</h3>
           <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ Download Merit List PDF (Ranks)</button>
         </div>
 
@@ -329,13 +342,13 @@
               <tr>
                 <th>Rank</th>
                 <th>Roll No</th>
-                <th>విద్యార్థి పేరు</th>
-                <th>Mobile</th>
+                <th>విద్యార్థి పేరు (Name)</th>
                 <th>Arith (100)</th>
                 <th>Reas (100)</th>
                 <th>Total (200)</th>
-                <th>Status</th>
-                <th class="no-print">Re-Exam Action</th>
+                <th class="no-print">Student PIN</th>
+                <th class="no-print">Status</th>
+                <th class="no-print">Director Controls</th>
               </tr>
             </thead>
             <tbody id="directorStudentsBody"></tbody>
@@ -360,55 +373,70 @@
     </div>
 
     <div id="adminDashboard" style="display: none;">
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-          <h2 style="font-size:1.2rem; color:#0f172a;">🛡️ Super Admin — Coaching Centers & Exam Control</h2>
-          <button class="btn btn-outline btn-sm" onclick="adminLogout()">🚪 Logout</button>
+      <!-- Global Exam Fee Setting -->
+      <div class="card" style="background:#f0f9ff; border-color:#bae6fd;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h3 style="font-size:1.05rem; color:#0369a1;">💰 పరీక్ష నిర్వహణ రుసుము (Global Exam Base Fee)</h3>
+            <p style="font-size:0.82rem; color:#334155;">డైరెక్టర్ పరీక్షను Live చేయడానికి చెల్లించాల్సిన ప్రాథమిక రుసుము (100% డిస్కౌంట్ ఇస్తే ఉచితంగా లైవ్ అవుతుంది).</p>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="number" id="globalExamPriceInput" style="width:110px; padding:8px; border-radius:8px; border:1.5px solid #0284c7; font-weight:800;" min="0">
+            <button class="btn btn-primary btn-sm" onclick="saveGlobalPrice()">💾 Update Price (₹)</button>
+            <button class="btn btn-outline btn-sm" onclick="adminLogout()">🚪 Logout</button>
+          </div>
         </div>
+      </div>
 
-        <!-- Add New Institute & Assign Allowed Roll Numbers -->
-        <div style="background:#f8fafc; border:1px solid var(--border); padding:14px; border-radius:10px; margin-bottom:16px;">
-          <h4 style="margin-bottom:10px; color:var(--primary-dark);">➕ కొత్త కోచింగ్ సెంటర్ / డైరెక్టర్‌ను జత చేయండి</h4>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>కోచింగ్ సెంటర్ పేరు *</label>
-              <input type="text" id="newInstName" placeholder="ఉదా: Kakatiya Study Circle">
-            </div>
-            <div class="form-group">
-              <label>డైరెక్టర్ మొబైల్ నంబర్ *</label>
-              <input type="tel" id="newDirMobile" maxlength="10" placeholder="10 అంకెల నంబర్">
-            </div>
-            <div class="form-group">
-              <label>ఇన్‌స్టిట్యూట్ / డైరెక్టర్ PIN *</label>
-              <input type="text" id="newInstPin" placeholder="ఉదా: 5566">
-            </div>
-            <div class="form-group">
-              <label>ఫీజు / డిస్కౌంట్ (%) *</label>
-              <input type="number" id="newInstDiscount" value="0" min="0" max="100" placeholder="Discount %">
-            </div>
-            <div class="form-group">
-              <label>అనుమతించిన రోల్ నంబర్లు (From - To) *</label>
-              <div style="display:flex; gap:6px;">
-                <input type="number" id="rollStart" placeholder="From (101)" value="101">
-                <input type="number" id="rollEnd" placeholder="To (150)" value="150">
-              </div>
+      <!-- Add New Institute -->
+      <div class="card">
+        <h4 style="margin-bottom:10px; color:var(--primary-dark);">➕ కొత్త కోచింగ్ సెంటర్ / డైరెక్టర్‌ను జత చేయండి</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>కోచింగ్ సెంటర్ పేరు *</label>
+            <input type="text" id="newInstName" placeholder="ఉదా: Kakatiya Study Circle">
+          </div>
+          <div class="form-group">
+            <label>ఇన్‌స్టిట్యూట్ కోడ్ (Institute Code) *</label>
+            <input type="text" id="newInstCode" placeholder="ఉదా: KSC200">
+          </div>
+          <div class="form-group">
+            <label>డైరెక్టర్ మొబైల్ నంబర్ *</label>
+            <input type="tel" id="newDirMobile" maxlength="10" placeholder="10 అంకెల నంబర్">
+          </div>
+          <div class="form-group">
+            <label>డైరెక్టర్ లాగిన్ PIN *</label>
+            <input type="text" id="newDirPin" placeholder="ఉదా: 5566">
+          </div>
+          <div class="form-group">
+            <label>డిస్కౌంట్ (%) — 100 ఇస్తే ఉచితం *</label>
+            <input type="number" id="newInstDiscount" value="0" min="0" max="100">
+          </div>
+          <div class="form-group">
+            <label>అనుమతించిన రోల్ నంబర్లు (From - To) *</label>
+            <div style="display:flex; gap:6px;">
+              <input type="number" id="rollStart" placeholder="From" value="101">
+              <input type="number" id="rollEnd" placeholder="To" value="150">
             </div>
           </div>
-          <button class="btn btn-success" onclick="addNewInstitute()">✅ ఇన్‌స్టిట్యూట్ క్రియేట్ చేయండి</button>
         </div>
+        <button class="btn btn-success" onclick="addNewInstitute()">✅ ఇన్‌స్టిట్యూట్ క్రియేట్ చేయండి</button>
+      </div>
 
-        <h3 style="font-size:1.05rem; margin-bottom:8px;">📋 రిజిస్టర్ అయిన కోచింగ్ సెంటర్ల జాబితా</h3>
+      <!-- Registered Institutes List -->
+      <div class="card">
+        <h3 style="font-size:1.05rem; margin-bottom:8px;">📋 రిజిస్టర్ అయిన కోచింగ్ సెంటర్ల నియంత్రణ</h3>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Institute Name</th>
-                <th>Director Mobile</th>
-                <th>PIN</th>
-                <th>Roll Range</th>
-                <th>Discount %</th>
-                <th>Admin Permission</th>
-                <th>Controls (Hold / Discount)</th>
+                <th>Institute & Code</th>
+                <th>Director Mobile & PIN</th>
+                <th>Rolls</th>
+                <th>Discount & Payable</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Admin Controls</th>
               </tr>
             </thead>
             <tbody id="adminInstTableBody"></tbody>
@@ -420,33 +448,46 @@
 
 </div>
 
+<!-- DIRECTOR PAYMENT MODAL -->
+<div class="modal-overlay" id="payModal" onclick="if(event.target===this) closePayModal()">
+  <div class="modal-box">
+    <h3 style="color:#0f172a; margin-bottom:10px;">💳 Exam Activation Fee Payment</h3>
+    <div id="payModalDetails" style="font-size:0.9rem; color:#334155; background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:14px;"></div>
+    <button class="btn btn-success btn-full" onclick="confirmDirectorPayment()">✅ Pay & Activate Exam Live Now</button>
+    <button class="btn btn-outline btn-full" style="margin-top:8px;" onclick="closePayModal()">Cancel</button>
+  </div>
+</div>
+
 <script src="questions.js"></script>
 <script>
   // =========================================================
-  // B2B DATA STORE (Synced with localStorage; ready for Cloudflare D1 API)
+  // SECURE B2B DATA STORE
   // =========================================================
-  const STORAGE_KEY = "TSSI_PAPER1_B2B_DB_V1";
+  const STORAGE_KEY = "TSSI_PAPER1_SECURE_B2B_V2";
 
   function loadDB() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
 
-    // Default Initial Seed Data
     const seed = {
+      examBasePrice: 500, // Super Admin controlled base fee
       institutes: [
         {
           id: "INST_1",
+          code: "TPA100",
           name: "Telangana Police Academy (Demo)",
           directorMobile: "9876543210",
-          pin: "1234",
+          directorPin: "1234",
           rollStart: 101,
           rollEnd: 200,
-          discount: 20,
-          adminAllowed: true,  // Super Admin permission
-          examLive: true       // Director start/stop control
+          discount: 100,       // 100% discount = auto live without fee
+          feePaid: true,
+          adminAllowed: true,
+          examLive: false
         }
       ],
-      attempts: [] // { instId, roll, name, phone, arith, reas, total, status: 'SUBMITTED'|'REEXAM_ALLOWED', answers }
+      // Each student gets their own unique personal PIN on first login
+      students: [] // { instId, roll, name, phone, personalPin, arith, reas, total, status: 'IN_PROGRESS'|'SUBMITTED'|'REEXAM_ALLOWED' }
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
     return seed;
@@ -456,7 +497,10 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
   }
 
-  // Role Switching
+  function generatePin4() {
+    return String(Math.floor(1000 + Math.random() * 9000));
+  }
+
   function switchRole(role) {
     ['student', 'director', 'admin'].forEach(r => {
       document.getElementById(`view-${r}`).style.display = (r === role) ? 'block' : 'none';
@@ -465,16 +509,18 @@
   }
 
   // =========================================================
-  // SUPER ADMIN FUNCTIONS
+  // 3. SUPER ADMIN FUNCTIONS
   // =========================================================
   function adminLogin() {
     const pass = document.getElementById('adminPass').value.trim();
     if (pass !== "admin2026") {
-      alert("తప్పు Super Admin పాస్‌వర్డ్!");
+      alert("❌ తప్పు Super Admin పాస్‌వర్డ్!");
       return;
     }
     document.getElementById('adminLoginCard').style.display = 'none';
     document.getElementById('adminDashboard').style.display = 'block';
+    const db = loadDB();
+    document.getElementById('globalExamPriceInput').value = db.examBasePrice;
     renderAdminTable();
   }
 
@@ -483,30 +529,46 @@
     document.getElementById('adminDashboard').style.display = 'none';
   }
 
+  function saveGlobalPrice() {
+    const price = Math.max(0, parseInt(document.getElementById('globalExamPriceInput').value) || 0);
+    const db = loadDB();
+    db.examBasePrice = price;
+    saveDB(db);
+    renderAdminTable();
+    alert(`✅ పరీక్ష బేస్ ధర ₹${price} గా అప్‌డేట్ చేయబడింది.`);
+  }
+
   function addNewInstitute() {
     const name = document.getElementById('newInstName').value.trim();
+    const code = document.getElementById('newInstCode').value.trim().toUpperCase();
     const mobile = document.getElementById('newDirMobile').value.trim();
-    const pin = document.getElementById('newInstPin').value.trim();
-    const discount = parseInt(document.getElementById('newInstDiscount').value) || 0;
+    const pin = document.getElementById('newDirPin').value.trim();
+    const discount = Math.max(0, Math.min(100, parseInt(document.getElementById('newInstDiscount').value) || 0));
     const rollStart = parseInt(document.getElementById('rollStart').value) || 101;
     const rollEnd = parseInt(document.getElementById('rollEnd').value) || 150;
 
-    if (!name || mobile.length < 10 || !pin) {
+    if (!name || !code || mobile.length < 10 || !pin) {
       alert("దయచేసి అన్ని వివరాలు సరిగ్గా నమోదు చేయండి.");
       return;
     }
 
     const db = loadDB();
+    if (db.institutes.some(i => i.code === code)) {
+      alert("⚠️ ఈ Institute Code ఇప్పటికే వాడుకలో ఉంది. వేరే కోడ్ ఇవ్వండి.");
+      return;
+    }
+
     db.institutes.push({
       id: "INST_" + Date.now(),
-      name, directorMobile: mobile, pin,
+      code, name, directorMobile: mobile, directorPin: pin,
       rollStart, rollEnd, discount,
+      feePaid: (discount === 100),
       adminAllowed: true,
       examLive: false
     });
     saveDB(db);
     renderAdminTable();
-    alert("✅ కొత్త కోచింగ్ సెంటర్ విజయవంతంగా జతచేయబడింది!");
+    alert("✅ కొత్త కోచింగ్ సెంటర్ జతచేయబడింది!");
   }
 
   function toggleAdminPermission(instId) {
@@ -520,45 +582,63 @@
   }
 
   function updateDiscount(instId) {
-    const val = prompt("కొత్త డిస్కౌంట్ శాతం (0 - 100) ఎంటర్ చేయండి:");
+    const val = prompt("కొత్త డిస్కౌంట్ శాతం (0 - 100) ఎంటర్ చేయండి (100 ఇస్తే ఉచితంగా లైవ్ అవుతుంది):");
     if (val === null) return;
     const disc = Math.max(0, Math.min(100, parseInt(val) || 0));
     const db = loadDB();
     const inst = db.institutes.find(i => i.id === instId);
     if (inst) {
       inst.discount = disc;
+      if (disc === 100) inst.feePaid = true;
       saveDB(db);
       renderAdminTable();
     }
   }
 
+  function deleteInstitute(instId) {
+    if (!confirm("⚠️ ఈ కోచింగ్ సెంటర్ మరియు డైరెక్టర్ ఖాతాను పూర్తిగా తొలగించాలా?")) return;
+    const db = loadDB();
+    db.institutes = db.institutes.filter(i => i.id !== instId);
+    db.students = db.students.filter(s => s.instId !== instId);
+    saveDB(db);
+    renderAdminTable();
+  }
+
   function renderAdminTable() {
     const db = loadDB();
     const tbody = document.getElementById('adminInstTableBody');
-    tbody.innerHTML = db.institutes.map(inst => `
-      <tr>
-        <td><strong>${inst.name}</strong></td>
-        <td>${inst.directorMobile}</td>
-        <td><code>${inst.pin}</code></td>
-        <td>${inst.rollStart} – ${inst.rollEnd}</td>
-        <td><strong>${inst.discount}% OFF</strong></td>
-        <td>
-          <span class="status-pill ${inst.adminAllowed ? 'st-active' : 'st-hold'}">
-            ${inst.adminAllowed ? 'ALLOWED' : 'SUSPENDED / HOLD'}
-          </span>
-        </td>
-        <td style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-sm ${inst.adminAllowed ? 'btn-danger' : 'btn-success'}" onclick="toggleAdminPermission('${inst.id}')">
-            ${inst.adminAllowed ? '⛔ Hold Exam' : '✅ Allow Exam'}
-          </button>
-          <button class="btn btn-sm btn-warn" onclick="updateDiscount('${inst.id}')">🏷️ Discount</button>
-        </td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = db.institutes.map(inst => {
+      const payable = Math.round(db.examBasePrice * (100 - inst.discount) / 100);
+      return `
+        <tr>
+          <td><strong>${inst.name}</strong><br><small>Code: <code>${inst.code}</code></small></td>
+          <td>${inst.directorMobile}<br><small>PIN: <code>${inst.directorPin}</code></small></td>
+          <td>${inst.rollStart} – ${inst.rollEnd}</td>
+          <td>${inst.discount}% OFF<br><strong>Payable: ₹${payable}</strong></td>
+          <td>
+            <span class="status-pill ${inst.feePaid || payable === 0 ? 'st-active' : 'st-hold'}">
+              ${payable === 0 ? 'FREE (100%)' : (inst.feePaid ? 'PAID' : 'UNPAID')}
+            </span>
+          </td>
+          <td>
+            <span class="status-pill ${inst.adminAllowed ? 'st-active' : 'st-hold'}">
+              ${inst.adminAllowed ? 'ACTIVE' : 'SUSPENDED'}
+            </span>
+          </td>
+          <td style="display:flex; gap:5px; flex-wrap:wrap;">
+            <button class="btn btn-sm ${inst.adminAllowed ? 'btn-warn' : 'btn-success'}" onclick="toggleAdminPermission('${inst.id}')">
+              ${inst.adminAllowed ? '⛔ Hold' : '✅ Allow'}
+            </button>
+            <button class="btn btn-sm btn-primary" onclick="updateDiscount('${inst.id}')">🏷️ Disc%</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteInstitute('${inst.id}')">🗑️ Delete</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
   }
 
   // =========================================================
-  // COACHING CENTER DIRECTOR FUNCTIONS
+  // 2. COACHING CENTER DIRECTOR FUNCTIONS
   // =========================================================
   let currentDirectorInstId = null;
 
@@ -566,14 +646,14 @@
     const mobile = document.getElementById('dirMobile').value.trim();
     const pin = document.getElementById('dirPin').value.trim();
     const db = loadDB();
-    const inst = db.institutes.find(i => i.directorMobile === mobile && i.pin === pin);
+    const inst = db.institutes.find(i => i.directorMobile === mobile && i.directorPin === pin);
 
     if (!inst) {
-      alert("తప్పు మొబైల్ నంబర్ లేదా PIN!");
+      alert("❌ తప్పు మొబైల్ నంబర్ లేదా డైరెక్టర్ PIN!");
       return;
     }
     if (!inst.adminAllowed) {
-      alert("⛔ Super Admin మీ ఇన్‌స్టిట్యూట్ పరీక్ష అనుమతిని తాత్కాలికంగా నిలిపివేశారు. దయచేసి అడ్మిన్‌ను సంప్రదించండి.");
+      alert("⛔ Super Admin మీ ఇన్‌స్టిట్యూట్ అనుమతిని నిలిపివేశారు.");
       return;
     }
 
@@ -589,27 +669,80 @@
     document.getElementById('directorDashboard').style.display = 'none';
   }
 
-  function toggleInstituteExam(isLive) {
+  function handleStartExamClick() {
     const db = loadDB();
     const inst = db.institutes.find(i => i.id === currentDirectorInstId);
     if (!inst) return;
-    if (!inst.adminAllowed) {
-      alert("⛔ Super Admin అనుమతి నిలిపివేయబడింది.");
+
+    const payable = Math.round(db.examBasePrice * (100 - inst.discount) / 100);
+
+    // If 100% discount (payable === 0) or already paid, go live directly!
+    if (payable === 0 || inst.feePaid) {
+      inst.feePaid = true;
+      inst.examLive = true;
+      saveDB(db);
+      renderDirectorDashboard();
+      alert("✅ పరీక్ష విజయవంతంగా LIVE చేయబడింది! విద్యార్థులు ఇప్పుడు లాగిన్ అవ్వవచ్చు.");
       return;
     }
-    inst.examLive = isLive;
-    saveDB(db);
+
+    // Otherwise open Fee Payment Modal
+    document.getElementById('payModalDetails').innerHTML = `
+      <p><strong>Institute:</strong> ${inst.name}</p>
+      <p><strong>Exam Base Fee:</strong> ₹${db.examBasePrice}</p>
+      <p><strong>Admin Discount:</strong> ${inst.discount}%</p>
+      <p style="font-size:1.1rem; color:#0369a1; margin-top:6px;"><strong>Total Payable: ₹${payable}.00</strong></p>
+    `;
+    document.getElementById('payModal').style.display = 'flex';
+  }
+
+  function confirmDirectorPayment() {
+    const db = loadDB();
+    const inst = db.institutes.find(i => i.id === currentDirectorInstId);
+    if (inst) {
+      inst.feePaid = true;
+      inst.examLive = true;
+      saveDB(db);
+    }
+    closePayModal();
     renderDirectorDashboard();
+    alert("✅ చెల్లింపు పూర్తయింది! పరీక్ష ఇప్పుడు LIVE లో ఉంది.");
+  }
+
+  function closePayModal() {
+    document.getElementById('payModal').style.display = 'none';
+  }
+
+  function stopInstituteExam() {
+    const db = loadDB();
+    const inst = db.institutes.find(i => i.id === currentDirectorInstId);
+    if (inst) {
+      inst.examLive = false;
+      saveDB(db);
+      renderDirectorDashboard();
+    }
   }
 
   function allowReExam(roll) {
     if (!confirm(`Roll No: ${roll} విద్యార్థికి మళ్ళీ పరీక్ష (Re-Exam) రాసే అవకాశం ఇవ్వాలా?`)) return;
     const db = loadDB();
-    const att = db.attempts.find(a => a.instId === currentDirectorInstId && a.roll === roll);
-    if (att) {
-      att.status = 'REEXAM_ALLOWED';
+    const stu = db.students.find(s => s.instId === currentDirectorInstId && s.roll === roll);
+    if (stu) {
+      stu.status = 'REEXAM_ALLOWED';
       saveDB(db);
       renderDirectorDashboard();
+    }
+  }
+
+  function resetStudentPin(roll) {
+    const newPin = generatePin4();
+    const db = loadDB();
+    const stu = db.students.find(s => s.instId === currentDirectorInstId && s.roll === roll);
+    if (stu) {
+      stu.personalPin = newPin;
+      saveDB(db);
+      renderDirectorDashboard();
+      alert(`🔑 Roll No: ${roll} (${stu.name}) యొక్క కొత్త Personal PIN: ${newPin}\nఈ PIN ను విద్యార్థికి తెలియజేయండి.`);
     }
   }
 
@@ -618,48 +751,63 @@
     const inst = db.institutes.find(i => i.id === currentDirectorInstId);
     if (!inst) return;
 
+    const payable = Math.round(db.examBasePrice * (100 - inst.discount) / 100);
+
     document.getElementById('dirInstTitle').innerText = `🏛️ ${inst.name}`;
     document.getElementById('meritPrintInstName').innerText = inst.name;
-    document.getElementById('dirInstMeta').innerText = `Allowed Roll Numbers: ${inst.rollStart} to ${inst.rollEnd} • PIN: ${inst.pin} • Discount: ${inst.discount}%`;
+    document.getElementById('dirInstMeta').innerText = `Institute Code: ${inst.code} • Allowed Roll Numbers: ${inst.rollStart} to ${inst.rollEnd}`;
 
     const badge = document.getElementById('dirExamStatusBadge');
-    badge.innerText = inst.examLive ? "LIVE (విద్యార్థులకు అనుమతి ఉంది)" : "STOPPED (పరీక్ష నిలిపివేయబడింది)";
+    badge.innerText = inst.examLive ? "LIVE (పరీక్ష జరుగుతోంది)" : "STOPPED (నిలిపివేయబడింది)";
     badge.className = `status-pill ${inst.examLive ? 'st-active' : 'st-hold'}`;
 
-    // Sort attempts by Total Marks descending for Merit Rank
-    const instAttempts = db.attempts
-      .filter(a => a.instId === inst.id)
-      .sort((a, b) => b.total - a.total);
+    document.getElementById('dirFeeInfo').innerText = payable === 0
+      ? `🎉 100% Super Admin Discount వర్తించింది — ఉచితంగా Exam Live చేయవచ్చు!`
+      : `Exam Fee: ₹${db.examBasePrice} | Discount: ${inst.discount}% | Payable: ₹${payable} (${inst.feePaid ? 'PAID' : 'Payment Required'})`;
+
+    const actionDiv = document.getElementById('dirActionButtons');
+    if (inst.examLive) {
+      actionDiv.innerHTML = `<button class="btn btn-danger btn-sm" onclick="stopInstituteExam()">⏹️ Stop Exam</button>`;
+    } else {
+      const btnLabel = (payable === 0 || inst.feePaid) ? "▶️ Start Exam (Live)" : `💳 Pay ₹${payable} & Start Exam`;
+      actionDiv.innerHTML = `<button class="btn btn-success btn-sm" onclick="handleStartExamClick()">${btnLabel}</button>`;
+    }
+
+    // Merit List (Mobile Number intentionally EXCLUDED)
+    const instStudents = db.students
+      .filter(s => s.instId === inst.id)
+      .sort((a, b) => (b.total || 0) - (a.total || 0));
 
     const tbody = document.getElementById('directorStudentsBody');
-    if (instAttempts.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#64748b;">ఇంకా ఏ విద్యార్థి పరీక్ష సబ్మిట్ చేయలేదు.</td></tr>`;
+    if (instStudents.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#64748b;">ఇంకా ఏ విద్యార్థి లాగిన్ అవ్వలేదు.</td></tr>`;
       return;
     }
 
-    tbody.innerHTML = instAttempts.map((a, idx) => `
+    tbody.innerHTML = instStudents.map((s, idx) => `
       <tr>
         <td><strong>#${idx + 1}</strong></td>
-        <td><strong>${a.roll}</strong></td>
-        <td>${a.name}</td>
-        <td>${a.phone}</td>
-        <td>${a.arith}</td>
-        <td>${a.reas}</td>
-        <td><strong style="color:#0369a1;">${a.total} / 200</strong></td>
-        <td>
-          <span class="status-pill ${a.status === 'REEXAM_ALLOWED' ? 'st-hold' : 'st-active'}">
-            ${a.status === 'REEXAM_ALLOWED' ? 'Re-Exam Enabled' : 'Completed'}
+        <td><strong>${s.roll}</strong></td>
+        <td>${s.name}</td>
+        <td>${s.arith ?? '-'}</td>
+        <td>${s.reas ?? '-'}</td>
+        <td><strong style="color:#0369a1;">${s.total !== undefined ? s.total + ' / 200' : 'Writing...'}</strong></td>
+        <td class="no-print"><code>${s.personalPin}</code></td>
+        <td class="no-print">
+          <span class="status-pill ${s.status === 'SUBMITTED' ? 'st-active' : 'st-hold'}">
+            ${s.status}
           </span>
         </td>
-        <td class="no-print">
-          <button class="btn btn-warn btn-sm" onclick="allowReExam('${a.roll}')">🔄 Allow Re-Exam</button>
+        <td class="no-print" style="display:flex; gap:5px; flex-wrap:wrap;">
+          <button class="btn btn-warn btn-sm" onclick="allowReExam('${s.roll}')">🔄 Re-Exam</button>
+          <button class="btn btn-primary btn-sm" onclick="resetStudentPin('${s.roll}')">🔑 Reset PIN</button>
         </td>
       </tr>
     `).join('');
   }
 
   // =========================================================
-  // STUDENT EXAM FUNCTIONS
+  // 1. STUDENT EXAM & UNIQUE PERSONAL PIN FUNCTIONS
   // =========================================================
   let currentStudent = null;
   let currentIdx = 0;
@@ -668,20 +816,21 @@
   let timerInterval = null;
 
   function studentLogin() {
+    const instCode = document.getElementById('stuInstCode').value.trim().toUpperCase();
     const roll = document.getElementById('stuRoll').value.trim();
     const name = document.getElementById('stuName').value.trim();
     const phone = document.getElementById('stuPhone').value.trim();
-    const pin = document.getElementById('stuPin').value.trim();
+    const enteredPin = document.getElementById('stuPersonalPin').value.trim();
 
-    if (!roll || !name || phone.length < 10 || !pin) {
-      alert("దయచేసి రోల్ నంబర్, పేరు, ఫోన్ నంబర్ మరియు PIN అన్నీ నమోదు చేయండి.");
+    if (!instCode || !roll || !name || phone.length < 10) {
+      alert("దయచేసి Institute Code, రోల్ నంబర్, పేరు మరియు 10 అంకెల ఫోన్ నంబర్ నమోదు చేయండి.");
       return;
     }
 
     const db = loadDB();
-    const inst = db.institutes.find(i => i.pin === pin);
+    const inst = db.institutes.find(i => i.code === instCode);
     if (!inst) {
-      alert("❌ తప్పు ఇన్‌స్టిట్యూట్ PIN! మీ డైరెక్టర్ ఇచ్చిన సరైన PIN ఎంటర్ చేయండి.");
+      alert("❌ తప్పు Institute Code! మీ కోచింగ్ సెంటర్ కోడ్ సరిచూసుకోండి.");
       return;
     }
     if (!inst.adminAllowed || !inst.examLive) {
@@ -691,23 +840,56 @@
 
     const rollNum = parseInt(roll);
     if (isNaN(rollNum) || rollNum < inst.rollStart || rollNum > inst.rollEnd) {
-      alert(`⛔ మీ రోల్ నంబర్ (${roll}) ఈ ఇన్‌స్టిట్యూట్ జాబితాలో లేదు. అనుమతించిన పరిధి: ${inst.rollStart} - ${inst.rollEnd}`);
+      alert(`⛔ మీ రోల్ నంబర్ (${roll}) ఈ ఇన్‌స్టిట్యూట్ జాబితాలో లేదు.`);
       return;
     }
 
-    const existing = db.attempts.find(a => a.instId === inst.id && a.roll === roll);
-    if (existing && existing.status !== 'REEXAM_ALLOWED') {
-      alert("⚠️ మీరు ఇప్పటికే ఈ పరీక్ష రాశారు! మళ్ళీ రాయడానికి మీ డైరెక్టర్ నుండి Re-Exam అనుమతి తీసుకోండి.");
-      return;
+    let stuRecord = db.students.find(s => s.instId === inst.id && s.roll === roll);
+
+    if (!stuRecord) {
+      // FIRST TIME LOGIN: Generate unique personal 4-digit PIN for this student
+      const newPersonalPin = generatePin4();
+      stuRecord = {
+        instId: inst.id,
+        roll,
+        name,
+        phone,
+        personalPin: newPersonalPin,
+        status: 'IN_PROGRESS'
+      };
+      db.students.push(stuRecord);
+      saveDB(db);
+      alert(`🎉 స్వాగతం ${name}!\n\nమీ వ్యక్తిగత లాగిన్ PIN (Personal PIN): ${newPersonalPin}\n\nదయచేసి దీనిని నోట్ చేసుకోండి. తర్వాతి సారి లాగిన్ అవ్వడానికి ఈ PIN తప్పనిసరి.`);
+    } else {
+      // SUBSEQUENT LOGIN: Must match their personal PIN
+      if (!enteredPin || enteredPin !== stuRecord.personalPin) {
+        alert("🔒 తప్పు Personal PIN! మీరు మొదటిసారి లాగిన్ అయినప్పుడు వచ్చిన 4-అంకెల PIN ఎంటర్ చేయండి. మర్చిపోతే మీ డైరెక్టర్ ద్వారా Reset PIN చేయించుకోండి.");
+        return;
+      }
+      if (stuRecord.status === 'SUBMITTED') {
+        alert("⚠️ మీరు ఇప్పటికే పరీక్ష పూర్తి చేశారు! మళ్ళీ రాయడానికి మీ డైరెక్టర్ నుండి Re-Exam అనుమతి తీసుకోండి.");
+        return;
+      }
+      stuRecord.status = 'IN_PROGRESS';
+      saveDB(db);
     }
 
-    currentStudent = { instId: inst.id, instName: inst.name, roll, name, phone };
+    currentStudent = {
+      instId: inst.id,
+      instName: inst.name,
+      roll: stuRecord.roll,
+      name: stuRecord.name,
+      phone: stuRecord.phone,
+      personalPin: stuRecord.personalPin
+    };
+
     userAnswers = new Array(QUESTIONS.length).fill(null);
     timeLeft = 180 * 60;
 
     document.getElementById('roleSwitcher').style.display = 'none';
     document.getElementById('studentLoginCard').style.display = 'none';
     document.getElementById('examScreen').style.display = 'block';
+    document.getElementById('stuPinBanner').innerText = `🔑 Your PIN: ${stuRecord.personalPin}`;
 
     buildPalette();
     renderQuestion(0);
@@ -845,22 +1027,20 @@
       `;
     }).join('');
 
-    // Save attempt to B2B DB (Overwrite if Re-Exam)
+    // Save marks & mark as SUBMITTED
     const db = loadDB();
-    db.attempts = db.attempts.filter(a => !(a.instId === currentStudent.instId && a.roll === currentStudent.roll));
-    db.attempts.push({
-      instId: currentStudent.instId,
-      roll: currentStudent.roll,
-      name: currentStudent.name,
-      phone: currentStudent.phone,
-      arith, reas, total: correct,
-      status: 'SUBMITTED'
-    });
-    saveDB(db);
+    const stuRecord = db.students.find(s => s.instId === currentStudent.instId && s.roll === currentStudent.roll);
+    if (stuRecord) {
+      stuRecord.arith = arith;
+      stuRecord.reas = reas;
+      stuRecord.total = correct;
+      stuRecord.status = 'SUBMITTED';
+      saveDB(db);
+    }
 
     document.getElementById('printInstName').innerText = currentStudent.instName;
     document.getElementById('finalScoreText').innerText = `${correct} / ${QUESTIONS.length}`;
-    document.getElementById('candidateMetaText').innerText = `Roll No: ${currentStudent.roll} • ${currentStudent.name} (${currentStudent.phone}) • ${currentStudent.instName}`;
+    document.getElementById('candidateMetaText').innerText = `Roll No: ${currentStudent.roll} • ${currentStudent.name} • Personal PIN: ${currentStudent.personalPin}`;
     document.getElementById('statCorrect').innerText = correct;
     document.getElementById('statWrong').innerText = wrong;
     document.getElementById('arithScore').innerText = `${arith} / 100`;
